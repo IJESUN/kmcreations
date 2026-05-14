@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Pricing | KMCreations - Premium Design Services</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'charcoal': '#0A0A0A',
+            'dark-charcoal': '#050505',
+            'beige': '#F5EFE6',
+            'beige-dark': '#E8DDD0',
+            'emerald': '#2C6E49',
+            'emerald-light': '#3c8a5c',
+            'gold': '#D4AF37',
+            'gold-light': '#E8C84A',
+          },
+          fontFamily: {
+            'sans': ['Inter', 'system-ui', 'sans-serif'],
+            'heading': ['Syne', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out',
+            'slide-down': 'slideDown 0.4s ease-out',
+          },
+          keyframes: {
+            fadeInUp: {
+              from: { opacity: '0', transform: 'translateY(30px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideDown: {
+              from: { opacity: '0', transform: 'translateY(-20px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* Custom styles */
+    .glass-card {
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(44, 110, 73, 0.2);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.5);
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6);
+    }
+
+    /* Service Collapsible Styles */
+    .service-item {
+      transition: all 0.3s ease;
+    }
+    
+    .service-header {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .service-header:hover {
+      background: rgba(44, 110, 73, 0.1);
+    }
+    
+    .service-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    
+    .service-item.active .service-content {
+      max-height: 2000px;
+    }
+    
+    .service-item.active .service-header i.fa-chevron-down {
+      transform: rotate(180deg);
+    }
+    
+    .service-header i.fa-chevron-down {
+      transition: transform 0.3s ease;
+    }
+    
+    /* Example work cards */
+    .example-card {
+      transition: all 0.3s ease;
+    }
+    
+    .example-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    /* Price badge */
+    .price-badge {
+      background: linear-gradient(135deg, #2C6E49, #1E4D33);
+      box-shadow: 0 4px 15px rgba(44, 110, 73, 0.3);
+    }
+    
+    /* Section title line */
+    .section-title-line {
+      position: relative;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #D4AF37 0%, #D4AF37 25%, rgba(212, 175, 55, 0.2) 25%, rgba(212, 175, 55, 0.1) 100%);
+      margin: 0.5rem 0 0 0;
+    }
+
+    .section-title-line::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 25%;
+      width: 10px;
+      height: 10px;
+      background: #D4AF37;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    /* WhatsApp Modal Styles */
+    .whatsapp-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .whatsapp-modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2C6E49;
+      border-radius: 10px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-charcoal text-beige font-sans overflow-x-hidden">
+
+  <!-- Sticky Navbar -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 flex justify-between items-center bg-charcoal/90 backdrop-blur-md border-b border-emerald-500/30">
+    <div class="text-2xl md:text-3xl font-bold tracking-tighter font-heading bg-gradient-to-r from-white to-emerald-400 bg-clip-text text-transparent">
+      <a href="index.html">KMCreations</a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex space-x-8 text-sm font-medium">
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Home</a>
+      <a href="index.html#services" class="hover:text-emerald-400 transition-colors">Services</a>
+      <a href="portfolio.html" class="hover:text-emerald-400 transition-colors">Portfolio</a>
+      <a href="index.html#about" class="hover:text-emerald-400 transition-colors">About</a>
+      <a href="index.html#testimonials" class="hover:text-emerald-400 transition-colors">Testimonials</a>
+      <a href="pricing.html" class="text-emerald-400 transition-colors">Pricing</a>
+      <a href="index.html#contact" class="hover:text-emerald-400 transition-colors">Contact</a>
+    </div>
+
+    <!-- Desktop CTA -->
+    <div class="hidden lg:block">
+      <button class="get-started-btn bg-gradient-to-r from-emerald to-emerald-light text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30">
+        Get Started →
+      </button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden text-2xl cursor-pointer" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-black/95 backdrop-blur-xl z-40 transform -translate-x-full transition-transform duration-500 pt-24 px-8">
+    <div class="flex flex-col space-y-6 text-lg">
+      <a href="index.html" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Home</a>
+      <a href="index.html#services" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Services</a>
+      <a href="portfolio.html" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Portfolio</a>
+      <a href="index.html#about" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">About</a>
+      <a href="index.html#testimonials" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Testimonials</a>
+      <a href="pricing.html" class="py-2 border-b border-white/10 text-emerald-400 transition">Pricing</a>
+      <a href="index.html#contact" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Contact</a>
+      <button class="get-started-btn-mobile bg-gradient-to-r from-emerald to-emerald-light text-white w-full py-3 rounded-full mt-4 transition-all duration-300 hover:scale-105">Get Started</button>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16 px-6 md:px-12 text-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-emerald-900/20 via-transparent to-transparent"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-title-wrapper max-w-7xl mx-auto mb-6">
+        <div class="section-title text-gold text-sm uppercase tracking-wider font-semibold">TRANSPARENT PRICING</div>
+        <div class="section-title-line"></div>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 bg-gradient-to-r from-white via-emerald-200 to-gold-300 bg-clip-text text-transparent">
+        Simple, Transparent Pricing
+      </h1>
+      <p class="text-lg md:text-xl text-beige/70 max-w-2xl mx-auto">
+        Choose the perfect service for your needs. Click on any service to see detailed pricing and examples.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pricing Services Section -->
+  <section class="py-16 px-6 max-w-7xl mx-auto">
+    <div class="space-y-4">
+
+      <!-- Service 1: Brand Identity Design -->
+      <div class="service-item glass-card rounded-2xl overflow-hidden">
+        <div class="service-header p-6 flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
+              <i class="fas fa-crown text-xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold font-heading">Brand Identity Design</h3>
+              <p class="text-beige/60 text-sm mt-1">Complete visual identity for your brand</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-down text-gold text-xl transition-transform"></i>
+        </div>
+
+        <div class="service-content">
+          <div class="p-6 pt-0 border-t border-white/10 mt-4">
+            <div class="mb-8">
+              <div class="inline-block price-badge rounded-full px-6 py-3 mb-4">
+                <span class="text-3xl md:text-4xl font-bold text-white">$2,499</span>
+                <span class="text-white/70 ml-2">one-time investment</span>
+              </div>
+              <p class="text-beige/70">Includes everything you need to establish a strong brand presence</p>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-emerald-400"></i> Example Projects
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic1.jpeg" class="w-full h-40 object-cover" alt="Luxury brand example">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Luxury Fashion Brand</p>
+                    <p class="text-xs text-beige/50">Complete brand identity</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic7.jpeg" class="w-full h-40 object-cover" alt="Tech startup example">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Tech Startup</p>
+                    <p class="text-xs text-beige/50">Logo & brand guidelines</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic4.jpeg" class="w-full h-40 object-cover" alt="Creative agency example">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Creative Agency</p>
+                    <p class="text-xs text-beige/50">Visual identity system</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-3">What's Included:</h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Logo Design (3 concepts)</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Color Palette Development</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Typography Selection</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Brand Guidelines Document</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Business Card Design</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Letterhead & Stationery</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Social Media Kit</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 2 Rounds of Revisions</li>
+              </ul>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-emerald to-emerald-light text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30 get-service-btn" data-service="Brand Identity Design">
+              Get This Service →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 2: Logo Design -->
+      <div class="service-item glass-card rounded-2xl overflow-hidden">
+        <div class="service-header p-6 flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
+              <i class="fas fa-pen-fancy text-xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold font-heading">Logo Design</h3>
+              <p class="text-beige/60 text-sm mt-1">Memorable logos that tell your story</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-down text-gold text-xl transition-transform"></i>
+        </div>
+
+        <div class="service-content">
+          <div class="p-6 pt-0 border-t border-white/10 mt-4">
+            <div class="mb-8">
+              <div class="inline-block price-badge rounded-full px-6 py-3 mb-4">
+                <span class="text-3xl md:text-4xl font-bold text-white">$899</span>
+                <span class="text-white/70 ml-2">one-time investment</span>
+              </div>
+              <p class="text-beige/70">Professional logo design that captures your brand essence</p>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-emerald-400"></i> Example Logos
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="example-card rounded-xl overflow-hidden bg-black/30 p-6 text-center">
+                  <i class="fas fa-crown text-5xl text-gold mb-3"></i>
+                  <p class="text-sm font-semibold">Luxury Brand Mark</p>
+                  <p class="text-xs text-beige/50">Elegant minimalist logo</p>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30 p-6 text-center">
+                  <i class="fas fa-chart-line text-5xl text-emerald-400 mb-3"></i>
+                  <p class="text-sm font-semibold">Tech Startup Logo</p>
+                  <p class="text-xs text-beige/50">Modern geometric design</p>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30 p-6 text-center">
+                  <i class="fas fa-leaf text-5xl text-gold mb-3"></i>
+                  <p class="text-sm font-semibold">Eco Brand Logo</p>
+                  <p class="text-xs text-beige/50">Organic natural feel</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-3">What's Included:</h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 3 Initial Concepts</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 2 Rounds of Revisions</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> High-Res Files (PNG, SVG, EPS)</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Color Variations</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Logo Usage Guidelines</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Source Files Included</li>
+              </ul>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-emerald to-emerald-light text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30 get-service-btn" data-service="Logo Design">
+              Get This Service →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 3: Social Media Creatives -->
+      <div class="service-item glass-card rounded-2xl overflow-hidden">
+        <div class="service-header p-6 flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
+              <i class="fab fa-instagram text-xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold font-heading">Social Media Creatives</h3>
+              <p class="text-beige/60 text-sm mt-1">Engaging content that stops the scroll</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-down text-gold text-xl transition-transform"></i>
+        </div>
+
+        <div class="service-content">
+          <div class="p-6 pt-0 border-t border-white/10 mt-4">
+            <div class="mb-8">
+              <div class="inline-block price-badge rounded-full px-6 py-3 mb-4">
+                <span class="text-3xl md:text-4xl font-bold text-white">$1,499</span>
+                <span class="text-white/70 ml-2">per month</span>
+              </div>
+              <p class="text-beige/70">Monthly subscription for consistent, high-quality social content</p>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-emerald-400"></i> Example Social Posts
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/sos1.png" class="w-full h-40 object-cover" alt="Instagram post">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Instagram Carousel</p>
+                    <p class="text-xs text-beige/50">Product launch campaign</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/sos2.png" class="w-full h-40 object-cover" alt="Facebook ad">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Facebook Ad Creative</p>
+                    <p class="text-xs text-beige/50">Conversion-focused design</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic6.jpeg" class="w-full h-40 object-cover" alt="YouTube thumbnail">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">YouTube Thumbnail</p>
+                    <p class="text-xs text-beige/50">High-CTR design</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-3">Monthly Package Includes:</h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 15 Custom Graphics</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 3 Story Templates</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 1 Carousel Design</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 2 Reel Covers</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Branded Templates</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Unlimited Revisions</li>
+              </ul>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-emerald to-emerald-light text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30 get-service-btn" data-service="Social Media Creatives">
+              Get This Service →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 4: UI/UX Design -->
+      <div class="service-item glass-card rounded-2xl overflow-hidden">
+        <div class="service-header p-6 flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
+              <i class="fas fa-mobile-alt text-xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold font-heading">UI/UX Design</h3>
+              <p class="text-beige/60 text-sm mt-1">User-centered digital experiences</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-down text-gold text-xl transition-transform"></i>
+        </div>
+
+        <div class="service-content">
+          <div class="p-6 pt-0 border-t border-white/10 mt-4">
+            <div class="mb-8">
+              <div class="inline-block price-badge rounded-full px-6 py-3 mb-4">
+                <span class="text-3xl md:text-4xl font-bold text-white">$4,999</span>
+                <span class="text-white/70 ml-2">per project</span>
+              </div>
+              <p class="text-beige/70">Complete UI/UX design for web or mobile applications</p>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-emerald-400"></i> Example Projects
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic2.jpeg" class="w-full h-40 object-cover" alt="Mobile app">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Fintech Mobile App</p>
+                    <p class="text-xs text-beige/50">Complete UI/UX design</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/web1.png" class="w-full h-40 object-cover" alt="Dashboard">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">SaaS Dashboard</p>
+                    <p class="text-xs text-beige/50">Analytics platform</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/web3.png" class="w-full h-40 object-cover" alt="E-commerce">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">E-commerce Platform</p>
+                    <p class="text-xs text-beige/50">Conversion-focused design</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-3">What's Included:</h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> User Research & Analysis</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Wireframing & Prototyping</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> High-Fidelity Mockups</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Interactive Prototype</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Design System</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Developer Handoff</li>
+              </ul>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-emerald to-emerald-light text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30 get-service-btn" data-service="UI/UX Design">
+              Get This Service →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 5: Motion Graphics -->
+      <div class="service-item glass-card rounded-2xl overflow-hidden">
+        <div class="service-header p-6 flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
+              <i class="fas fa-film text-xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold font-heading">Motion Graphics</h3>
+              <p class="text-beige/60 text-sm mt-1">Animated content that brings your brand to life</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-down text-gold text-xl transition-transform"></i>
+        </div>
+
+        <div class="service-content">
+          <div class="p-6 pt-0 border-t border-white/10 mt-4">
+            <div class="mb-8">
+              <div class="inline-block price-badge rounded-full px-6 py-3 mb-4">
+                <span class="text-3xl md:text-4xl font-bold text-white">$2,999</span>
+                <span class="text-white/70 ml-2">per project</span>
+              </div>
+              <p class="text-beige/70">Professional motion graphics for social media, ads, or brand videos</p>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-emerald-400"></i> Example Work
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic6.jpeg" class="w-full h-40 object-cover" alt="Explainer video">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Product Explainer</p>
+                    <p class="text-xs text-beige/50">2D animation</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <video class="w-full h-40 object-cover" autoplay loop muted playsinline>
+                    <source src="assets/videos/vid3.mp4" type="video/mp4">
+                  </video>
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Logo Animation</p>
+                    <p class="text-xs text-beige/50">Brand intro motion</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30 p-6 text-center">
+                  <i class="fas fa-play-circle text-5xl text-emerald-400 mb-3"></i>
+                  <p class="text-sm font-semibold">Social Media Ad</p>
+                  <p class="text-xs text-beige/50">15-second motion graphic</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-3">What's Included:</h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Script & Storyboard</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Custom Illustration/Graphics</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Voiceover (if needed)</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Sound Design</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 2 Rounds of Revisions</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Multiple Formats (MP4, MOV)</li>
+              </ul>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-emerald to-emerald-light text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30 get-service-btn" data-service="Motion Graphics">
+              Get This Service →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 6: Website Design -->
+      <div class="service-item glass-card rounded-2xl overflow-hidden">
+        <div class="service-header p-6 flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
+              <i class="fas fa-laptop-code text-xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold font-heading">Website Design</h3>
+              <p class="text-beige/60 text-sm mt-1">Stunning websites that convert visitors</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-down text-gold text-xl transition-transform"></i>
+        </div>
+
+        <div class="service-content">
+          <div class="p-6 pt-0 border-t border-white/10 mt-4">
+            <div class="mb-8">
+              <div class="inline-block price-badge rounded-full px-6 py-3 mb-4">
+                <span class="text-3xl md:text-4xl font-bold text-white">$5,999</span>
+                <span class="text-white/70 ml-2">starting at</span>
+              </div>
+              <p class="text-beige/70">Custom website design tailored to your brand</p>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                <i class="fas fa-images text-emerald-400"></i> Example Websites
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/web1.png" class="w-full h-40 object-cover" alt="Corporate site">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Corporate Website</p>
+                    <p class="text-xs text-beige/50">Professional & sleek</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/web3.png" class="w-full h-40 object-cover" alt="E-commerce">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">E-commerce Store</p>
+                    <p class="text-xs text-beige/50">Product showcase</p>
+                  </div>
+                </div>
+                <div class="example-card rounded-xl overflow-hidden bg-black/30">
+                  <img src="assets/images/pic5.jpeg" class="w-full h-40 object-cover" alt="Portfolio">
+                  <div class="p-3">
+                    <p class="text-sm font-semibold">Portfolio Website</p>
+                    <p class="text-xs text-beige/50">Creative showcase</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <h4 class="text-lg font-bold font-heading mb-3">What's Included:</h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Custom Design</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Responsive Layout</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> SEO Optimization</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Contact Forms</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> Social Media Integration</li>
+                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400 text-sm"></i> 30 Days Support</li>
+              </ul>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-emerald to-emerald-light text-white py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30 get-service-btn" data-service="Website Design">
+              Get This Service →
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-16 px-6 max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold font-heading mb-4">Frequently Asked Questions</h2>
+      <div class="w-20 h-1 bg-gradient-to-r from-emerald-500 to-gold-500 mx-auto"></div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="glass-card p-5">
+        <div class="flex justify-between items-center cursor-pointer faq-question">
+          <span class="font-semibold">What's included in the price?</span>
+          <i class="fas fa-chevron-down text-gold transition-transform"></i>
+        </div>
+        <div class="faq-answer pt-3 text-beige/70 hidden">
+          Each service package includes everything listed in the "What's Included" section. Additional services can be added for an extra fee.
+        </div>
+      </div>
+
+      <div class="glass-card p-5">
+        <div class="flex justify-between items-center cursor-pointer faq-question">
+          <span class="font-semibold">Do you offer payment plans?</span>
+          <i class="fas fa-chevron-down text-gold transition-transform"></i>
+        </div>
+        <div class="faq-answer pt-3 text-beige/70 hidden">
+          Yes, we offer flexible payment plans for larger projects. Contact us to discuss a payment schedule that works for you.
+        </div>
+      </div>
+
+      <div class="glass-card p-5">
+        <div class="flex justify-between items-center cursor-pointer faq-question">
+          <span class="font-semibold">How long does each service take?</span>
+          <i class="fas fa-chevron-down text-gold transition-transform"></i>
+        </div>
+        <div class="faq-answer pt-3 text-beige/70 hidden">
+          Timelines vary by service. Logo design takes 1-2 weeks, brand identity 2-3 weeks, and website design 4-6 weeks on average.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/30 via-black to-gold-900/30"></div>
+    <div class="relative text-center max-w-4xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold font-heading mb-6">Need a Custom Package?</h2>
+      <p class="text-xl text-beige/70 mb-8">Contact us for a tailored solution that fits your specific needs and budget.</p>
+      <button class="contact-team-btn bg-gradient-to-r from-emerald to-emerald-light text-white px-10 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30">
+        Contact Our Team →
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 py-12 px-6 bg-charcoal">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="text-2xl font-bold font-heading bg-gradient-to-r from-white to-emerald-400 bg-clip-text text-transparent">
+            KMCreations
+          </div>
+          <p class="text-sm text-beige/50 mt-2">Crafting exceptional digital experiences since 2017.</p>
+        </div>
+        <div>
+          <h4 class="font-bold font-heading mb-3">Explore</h4>
+          <ul class="space-y-2 text-sm text-beige/50">
+            <li><a href="index.html" class="hover:text-emerald-400 transition">Home</a></li>
+            <li><a href="index.html#services" class="hover:text-emerald-400 transition">Services</a></li>
+            <li><a href="portfolio.html" class="hover:text-emerald-400 transition">Portfolio</a></li>
+            <li><a href="index.html#about" class="hover:text-emerald-400 transition">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold font-heading mb-3">Support</h4>
+          <ul class="space-y-2 text-sm text-beige/50">
+            <li><a href="#" class="hover:text-emerald-400 transition">FAQ</a></li>
+            <li><a href="pricing.html" class="hover:text-emerald-400 transition">Pricing</a></li>
+            <li><a href="index.html#contact" class="hover:text-emerald-400 transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold font-heading mb-3">Newsletter</h4>
+          <div class="flex">
+            <input type="email" placeholder="Your email" class="flex-1 p-2 bg-black/50 border border-white/20 rounded-l-lg focus:border-emerald-400 outline-none text-sm">
+            <button class="bg-gradient-to-r from-emerald to-emerald-light px-4 rounded-r-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/30">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-beige/40">
+        <p>© 2025 KMCreations. All rights reserved. | Designed with <i class="fas fa-heart text-emerald-400"></i> for creative excellence</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Modal -->
+  <div id="whatsappModal" class="whatsapp-modal fixed top-0 left-0 w-full h-full bg-black/95 z-[2000] justify-center items-center p-4">
+    <div class="relative max-w-md w-full bg-charcoal rounded-2xl shadow-2xl border border-emerald-500/30">
+      <button id="closeWhatsappModal" class="absolute top-4 right-4 text-white text-2xl hover:text-emerald-400 transition">&times;</button>
+      <div class="p-6">
+        <div class="text-center mb-6">
+          <i class="fab fa-whatsapp text-5xl text-emerald-400 mb-3"></i>
+          <h3 class="text-2xl font-bold font-heading">Chat with us on WhatsApp</h3>
+          <p class="text-beige/60 text-sm mt-2">We'll get back to you within minutes</p>
+        </div>
+        <form id="whatsappForm">
+          <input type="text" id="whatsappName" placeholder="Your Name" required class="w-full p-3 mb-4 bg-black/50 border border-white/20 rounded-xl focus:border-emerald-400 outline-none transition text-beige">
+          <input type="tel" id="whatsappNumber" placeholder="Your WhatsApp Number (e.g., 254712345678)" required class="w-full p-3 mb-4 bg-black/50 border border-white/20 rounded-xl focus:border-emerald-400 outline-none transition text-beige">
+          <textarea id="whatsappMessage" rows="4" placeholder="Tell us about your project or inquiry..." required class="w-full p-3 mb-4 bg-black/50 border border-white/20 rounded-xl focus:border-emerald-400 outline-none transition text-beige"></textarea>
+          <button type="submit" class="bg-gradient-to-r from-emerald to-emerald-light text-white w-full py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
+            <i class="fab fa-whatsapp text-xl"></i> Send via WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // WhatsApp Configuration
+    const WHATSAPP_NUMBER = "254729776761";
+
+    // Function to open WhatsApp chat
+    function sendToWhatsApp(name, phone, message, service = null) {
+      let whatsappMessage = '';
+      if (service) {
+        whatsappMessage = `*New Inquiry from KMCreations Pricing Page*\n\n*Service Interested In:* ${service}\n*Name:* ${name}\n*Phone:* ${phone}\n\n*Message:*\n${message}`;
+      } else {
+        whatsappMessage = `*New Inquiry from KMCreations Pricing Page*\n\n*Name:* ${name}\n*Phone:* ${phone}\n\n*Message:*\n${message}`;
+      }
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Show WhatsApp Modal
+    function showWhatsAppModal(service = null) {
+      const modal = document.getElementById('whatsappModal');
+      const form = document.getElementById('whatsappForm');
+      const nameInput = document.getElementById('whatsappName');
+      const numberInput = document.getElementById('whatsappNumber');
+      const messageInput = document.getElementById('whatsappMessage');
+
+      // Clear form
+      nameInput.value = '';
+      numberInput.value = '';
+      messageInput.value = '';
+
+      // Store service in form data attribute
+      form.dataset.service = service || '';
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close WhatsApp Modal
+    function closeWhatsAppModal() {
+      const modal = document.getElementById('whatsappModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // WhatsApp Form Submit
+    document.getElementById('whatsappForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('whatsappName').value;
+      const phone = document.getElementById('whatsappNumber').value;
+      const message = document.getElementById('whatsappMessage').value;
+      const service = e.target.dataset.service;
+
+      if (name && phone && message) {
+        sendToWhatsApp(name, phone, message, service);
+        closeWhatsAppModal();
+      } else {
+        alert('Please fill in all fields');
+      }
+    });
+
+    // Close modal buttons
+    document.getElementById('closeWhatsappModal')?.addEventListener('click', closeWhatsAppModal);
+    document.getElementById('whatsappModal')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('whatsappModal')) closeWhatsAppModal();
+    });
+
+    // Get Started Buttons
+    document.querySelectorAll('.get-started-btn, .get-started-btn-mobile').forEach(btn => {
+      btn.addEventListener('click', () => showWhatsAppModal());
+    });
+
+    // Contact Our Team Button
+    document.querySelectorAll('.contact-team-btn').forEach(btn => {
+      btn.addEventListener('click', () => showWhatsAppModal());
+    });
+
+    // Get Service Buttons
+    const getServiceBtns = document.querySelectorAll('.get-service-btn');
+    getServiceBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const service = btn.getAttribute('data-service');
+        showWhatsAppModal(service);
+      });
+    });
+
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('-translate-x-full');
+      });
+    }
+
+    document.querySelectorAll('#mobileMenu a, #mobileMenu button').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('-translate-x-full');
+      });
+    });
+
+    // Service Item Toggle (Collapsible)
+    const serviceItems = document.querySelectorAll('.service-item');
+
+    serviceItems.forEach(item => {
+      const header = item.querySelector('.service-header');
+      header.addEventListener('click', () => {
+        // Close other items
+        serviceItems.forEach(otherItem => {
+          if (otherItem !== item && otherItem.classList.contains('active')) {
+            otherItem.classList.remove('active');
+          }
+        });
+        // Toggle current item
+        item.classList.toggle('active');
+      });
+    });
+
+    // FAQ Toggle
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('i');
+        answer.classList.toggle('hidden');
+        icon.style.transform = answer.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
+    });
+
+    // Navbar Scroll Effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-charcoal/90', 'backdrop-blur-md');
+      } else {
+        navbar.classList.remove('bg-charcoal/90', 'backdrop-blur-md');
+      }
+    });
+  </script>
+</body>
+</html>

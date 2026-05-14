@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Portfolio | KMCreations - Premium Graphic Design Showcase</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'charcoal': '#0A0A0A',
+            'dark-charcoal': '#050505',
+            'beige': '#F5EFE6',
+            'beige-dark': '#E8DDD0',
+            'emerald': '#2C6E49',
+            'emerald-light': '#3c8a5c',
+            'gold': '#D4AF37',
+            'gold-light': '#E8C84A',
+          },
+          fontFamily: {
+            'sans': ['Inter', 'system-ui', 'sans-serif'],
+            'heading': ['Syne', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out',
+            'scale-in': 'scaleIn 0.5s ease-out',
+          },
+          keyframes: {
+            fadeInUp: {
+              from: { opacity: '0', transform: 'translateY(30px)' },
+              to: { opacity: '1', transform: 'translateY(0)' },
+            },
+            scaleIn: {
+              from: { opacity: '0', transform: 'scale(0.9)' },
+              to: { opacity: '1', transform: 'scale(1)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* Custom styles */
+    .glass-card {
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(44, 110, 73, 0.2);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: translateY(-10px);
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6);
+    }
+
+    .filter-btn {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: #2C6E49;
+      color: white;
+      border-color: #2C6E49;
+    }
+
+    .portfolio-item {
+      transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      cursor: pointer;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    /* WhatsApp Modal Styles */
+    .whatsapp-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .whatsapp-modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2C6E49;
+      border-radius: 10px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Section title line */
+    .section-title-line {
+      position: relative;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #D4AF37 0%, #D4AF37 25%, rgba(212, 175, 55, 0.2) 25%, rgba(212, 175, 55, 0.1) 100%);
+      margin: 0.5rem 0 0 0;
+    }
+
+    .section-title-line::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 25%;
+      width: 10px;
+      height: 10px;
+      background: #D4AF37;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-charcoal text-beige font-sans overflow-x-hidden">
+
+  <!-- Sticky Navbar -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 flex justify-between items-center bg-charcoal/90 backdrop-blur-md border-b border-emerald-500/30">
+    <div class="text-2xl md:text-3xl font-bold tracking-tighter font-heading bg-gradient-to-r from-white to-emerald-400 bg-clip-text text-transparent">
+      <a href="index.html">KMCreations</a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex space-x-8 text-sm font-medium">
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Home</a>
+      <a href="index.html#services" class="hover:text-emerald-400 transition-colors">Services</a>
+      <a href="portfolio.html" class="text-emerald-400 transition-colors">Portfolio</a>
+      <a href="index.html#about" class="hover:text-emerald-400 transition-colors">About</a>
+      <a href="index.html#testimonials" class="hover:text-emerald-400 transition-colors">Testimonials</a>
+      <a href="pricing.html" class="hover:text-emerald-400 transition-colors">Pricing</a>
+      <a href="index.html#contact" class="hover:text-emerald-400 transition-colors">Contact</a>
+    </div>
+
+    <!-- Desktop CTA -->
+    <div class="hidden lg:block">
+      <button class="get-started-btn bg-gradient-to-r from-emerald to-emerald-light text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30">
+        Get Started →
+      </button>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden text-2xl cursor-pointer" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-black/95 backdrop-blur-xl z-40 transform -translate-x-full transition-transform duration-500 pt-24 px-8">
+    <div class="flex flex-col space-y-6 text-lg">
+      <a href="index.html" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Home</a>
+      <a href="index.html#services" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Services</a>
+      <a href="portfolio.html" class="py-2 border-b border-white/10 text-emerald-400 transition">Portfolio</a>
+      <a href="index.html#about" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">About</a>
+      <a href="index.html#testimonials" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Testimonials</a>
+      <a href="pricing.html" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Pricing</a>
+      <a href="index.html#contact" class="py-2 border-b border-white/10 hover:text-emerald-400 transition">Contact</a>
+      <button class="get-started-btn-mobile bg-gradient-to-r from-emerald to-emerald-light text-white w-full py-3 rounded-full mt-4 transition-all duration-300 hover:scale-105">Get Started</button>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16 px-6 md:px-12 text-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-emerald-900/20 via-transparent to-transparent"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-title-wrapper max-w-7xl mx-auto mb-6">
+        <div class="section-title text-gold text-sm uppercase tracking-wider font-semibold">OUR CREATIONS</div>
+        <div class="section-title-line"></div>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 bg-gradient-to-r from-white via-emerald-200 to-gold-300 bg-clip-text text-transparent">
+        Design Portfolio
+      </h1>
+      <p class="text-lg md:text-xl text-beige/70 max-w-2xl mx-auto">
+        Explore our curated collection of premium design work that has helped brands stand out and make lasting impressions.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="sticky top-20 z-40 bg-charcoal/90 backdrop-blur-md py-4 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-wrap justify-center gap-3">
+        <button class="filter-btn active px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="all">All Projects</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="branding">Branding</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="uiux">UI/UX</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="social">Social Media</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="motion">Motion Graphics</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="packaging">Packaging</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="web">Web Design</button>
+        <button class="filter-btn px-6 py-2.5 rounded-full bg-white/10 border border-white/20 text-sm font-medium transition-all hover:bg-emerald-500/20" data-filter="print">Print Design</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Grid -->
+  <section class="py-16 px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolioGrid">
+
+      <!-- Project 1 - Branding -->
+      <div class="portfolio-item branding group cursor-pointer" data-category="branding">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic1.jpeg" alt="Luxury Brand Identity">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Luxury Brand Identity</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Branding</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Complete brand identity for a luxury fashion house including logo, color palette, and brand guidelines.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="1" data-title="Luxury Brand Identity">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 - UI/UX -->
+      <div class="portfolio-item uiux group cursor-pointer" data-category="uiux">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic2.jpeg" alt="Fintech App">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Fintech Mobile App</h3>
+              <span class="text-xs text-emerald-400 font-semibold">UI/UX</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">User-centered design for a modern banking app with seamless payment experiences.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="2" data-title="Fintech Mobile App">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 - Social Media -->
+      <div class="portfolio-item social group cursor-pointer" data-category="social">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic3.jpeg" alt="Instagram Campaign">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Instagram Campaign</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Social Media</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Viral social media campaign with custom illustrations and motion graphics.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="3" data-title="Instagram Campaign">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4 - Packaging -->
+      <div class="portfolio-item packaging group cursor-pointer" data-category="packaging">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic4.jpeg" alt="Premium Packaging">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Luxury Packaging</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Packaging</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Eco-friendly luxury packaging design for premium skincare products.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2023</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="4" data-title="Luxury Packaging">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5 - Web Design -->
+      <div class="portfolio-item web group cursor-pointer" data-category="web">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic5.jpeg" alt="SaaS Dashboard">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">SaaS Dashboard</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Web Design</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Modern dashboard design for analytics platform with data visualization.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="5" data-title="SaaS Dashboard">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 6 - Motion Graphics -->
+      <div class="portfolio-item motion group cursor-pointer" data-category="motion">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic6.jpeg" alt="Motion Graphics Reel">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Motion Graphics Reel</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Motion Graphics</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Dynamic motion graphics for brand launch video and social media.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="6" data-title="Motion Graphics Reel">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 7 - Branding -->
+      <div class="portfolio-item branding group cursor-pointer" data-category="branding">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic7.jpg" alt="Startup Branding">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Startup Brand Identity</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Branding</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Complete brand identity for tech startup including logo, stationery, and digital assets.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2023</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="7" data-title="Startup Brand Identity">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 8 - Print Design -->
+      <div class="portfolio-item print group cursor-pointer" data-category="print">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic8.jpg" alt="Editorial Design">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Editorial Magazine</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Print Design</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Luxury magazine layout design with premium typography and imagery.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="8" data-title="Editorial Magazine">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 9 - UI/UX -->
+      <div class="portfolio-item uiux group cursor-pointer" data-category="uiux">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic9.jpg" alt="E-commerce Platform">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">E-commerce Platform</h3>
+              <span class="text-xs text-emerald-400 font-semibold">UI/UX</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Complete e-commerce website design with focus on conversion optimization.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="9" data-title="E-commerce Platform">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 10 - Social Media -->
+      <div class="portfolio-item social group cursor-pointer" data-category="social">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic13.jpg" alt="Social Media Kit">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Social Media Kit</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Social Media</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Complete social media toolkit with templates, graphics, and motion assets.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2023</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="10" data-title="Social Media Kit">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 11 - Packaging -->
+      <div class="portfolio-item packaging group cursor-pointer" data-category="packaging">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic11.jpg" alt="Product Packaging">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Product Packaging Line</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Packaging</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">Complete product packaging line for organic beauty brand.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="11" data-title="Product Packaging Line">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 12 - Motion Graphics -->
+      <div class="portfolio-item motion group cursor-pointer" data-category="motion">
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="relative overflow-hidden">
+            <img class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" src="assets/images/pic12.jpg" alt="Explainer Video">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-bold font-heading">Animated Explainer Video</h3>
+              <span class="text-xs text-emerald-400 font-semibold">Motion Graphics</span>
+            </div>
+            <p class="text-beige/60 text-sm mb-4">2D animated explainer video for tech product launch.</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gold"><i class="far fa-calendar-alt mr-1"></i> 2024</span>
+              <button class="text-emerald-400 hover:text-gold transition text-sm inquire-project" data-project="12" data-title="Animated Explainer Video">Inquire →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/30 via-black to-gold-900/30"></div>
+    <div class="relative text-center max-w-4xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold font-heading mb-6">Ready to create something amazing?</h2>
+      <p class="text-xl text-beige/70 mb-8">Let's bring your vision to life with exceptional design.</p>
+      <button class="start-project-btn bg-gradient-to-r from-emerald to-emerald-light text-white px-10 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/30">
+        Start Your Project →
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 py-12 px-6 bg-charcoal">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="text-2xl font-bold font-heading bg-gradient-to-r from-white to-emerald-400 bg-clip-text text-transparent">
+            KMCreations
+          </div>
+          <p class="text-sm text-beige/50 mt-2">Crafting exceptional digital experiences since 2017.</p>
+        </div>
+        <div>
+          <h4 class="font-bold font-heading mb-3">Explore</h4>
+          <ul class="space-y-2 text-sm text-beige/50">
+            <li><a href="index.html" class="hover:text-emerald-400 transition">Home</a></li>
+            <li><a href="index.html#services" class="hover:text-emerald-400 transition">Services</a></li>
+            <li><a href="portfolio.html" class="hover:text-emerald-400 transition">Portfolio</a></li>
+            <li><a href="index.html#about" class="hover:text-emerald-400 transition">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold font-heading mb-3">Support</h4>
+          <ul class="space-y-2 text-sm text-beige/50">
+            <li><a href="index.html#faq" class="hover:text-emerald-400 transition">FAQ</a></li>
+            <li><a href="pricing.html" class="hover:text-emerald-400 transition">Pricing</a></li>
+            <li><a href="index.html#contact" class="hover:text-emerald-400 transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold font-heading mb-3">Newsletter</h4>
+          <div class="flex">
+            <input type="email" placeholder="Your email" class="flex-1 p-2 bg-black/50 border border-white/20 rounded-l-lg focus:border-emerald-400 outline-none text-sm">
+            <button class="bg-gradient-to-r from-emerald to-emerald-light px-4 rounded-r-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/30">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-beige/40">
+        <p>© 2025 KMCreations. All rights reserved. | Designed with <i class="fas fa-heart text-emerald-400"></i> for creative excellence</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Modal -->
+  <div id="whatsappModal" class="whatsapp-modal fixed top-0 left-0 w-full h-full bg-black/95 z-[2000] justify-center items-center p-4">
+    <div class="relative max-w-md w-full bg-charcoal rounded-2xl shadow-2xl border border-emerald-500/30">
+      <button id="closeWhatsappModal" class="absolute top-4 right-4 text-white text-2xl hover:text-emerald-400 transition">&times;</button>
+      <div class="p-6">
+        <div class="text-center mb-6">
+          <i class="fab fa-whatsapp text-5xl text-emerald-400 mb-3"></i>
+          <h3 class="text-2xl font-bold font-heading">Chat with us on WhatsApp</h3>
+          <p class="text-beige/60 text-sm mt-2">We'll get back to you within minutes</p>
+        </div>
+        <form id="whatsappForm">
+          <input type="text" id="whatsappName" placeholder="Your Name" required class="w-full p-3 mb-4 bg-black/50 border border-white/20 rounded-xl focus:border-emerald-400 outline-none transition text-beige">
+          <input type="tel" id="whatsappNumber" placeholder="Your WhatsApp Number (e.g., 254712345678)" required class="w-full p-3 mb-4 bg-black/50 border border-white/20 rounded-xl focus:border-emerald-400 outline-none transition text-beige">
+          <textarea id="whatsappMessage" rows="4" placeholder="Tell us about your project or inquiry..." required class="w-full p-3 mb-4 bg-black/50 border border-white/20 rounded-xl focus:border-emerald-400 outline-none transition text-beige"></textarea>
+          <button type="submit" class="bg-gradient-to-r from-emerald to-emerald-light text-white w-full py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
+            <i class="fab fa-whatsapp text-xl"></i> Send via WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // WhatsApp Configuration
+    const WHATSAPP_NUMBER = "254729776761";
+
+    // Function to open WhatsApp chat
+    function sendToWhatsApp(name, phone, message, projectTitle = null) {
+      let whatsappMessage = '';
+      if (projectTitle) {
+        whatsappMessage = `*New Inquiry from KMCreations Portfolio*\n\n*Project Interested In:* ${projectTitle}\n*Name:* ${name}\n*Phone:* ${phone}\n\n*Message:*\n${message}`;
+      } else {
+        whatsappMessage = `*New Inquiry from KMCreations Portfolio*\n\n*Name:* ${name}\n*Phone:* ${phone}\n\n*Message:*\n${message}`;
+      }
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Show WhatsApp Modal
+    function showWhatsAppModal(projectTitle = null) {
+      const modal = document.getElementById('whatsappModal');
+      const form = document.getElementById('whatsappForm');
+      const nameInput = document.getElementById('whatsappName');
+      const numberInput = document.getElementById('whatsappNumber');
+      const messageInput = document.getElementById('whatsappMessage');
+
+      // Clear form
+      nameInput.value = '';
+      numberInput.value = '';
+      messageInput.value = '';
+
+      // Store project title in form data attribute
+      form.dataset.projectTitle = projectTitle || '';
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close WhatsApp Modal
+    function closeWhatsAppModal() {
+      const modal = document.getElementById('whatsappModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // WhatsApp Form Submit
+    document.getElementById('whatsappForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('whatsappName').value;
+      const phone = document.getElementById('whatsappNumber').value;
+      const message = document.getElementById('whatsappMessage').value;
+      const projectTitle = e.target.dataset.projectTitle;
+
+      if (name && phone && message) {
+        sendToWhatsApp(name, phone, message, projectTitle);
+        closeWhatsAppModal();
+      } else {
+        alert('Please fill in all fields');
+      }
+    });
+
+    // Close modal buttons
+    document.getElementById('closeWhatsappModal')?.addEventListener('click', closeWhatsAppModal);
+    document.getElementById('whatsappModal')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('whatsappModal')) closeWhatsAppModal();
+    });
+
+    // Get Started Buttons
+    document.querySelectorAll('.get-started-btn, .get-started-btn-mobile').forEach(btn => {
+      btn.addEventListener('click', () => showWhatsAppModal());
+    });
+
+    // Start Your Project Button
+    document.querySelectorAll('.start-project-btn').forEach(btn => {
+      btn.addEventListener('click', () => showWhatsAppModal());
+    });
+
+    // Inquire Buttons for Portfolio Projects
+    document.querySelectorAll('.inquire-project').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const projectTitle = btn.getAttribute('data-title');
+        showWhatsAppModal(projectTitle);
+      });
+    });
+
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('-translate-x-full');
+      });
+    }
+
+    document.querySelectorAll('#mobileMenu a, #mobileMenu button').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('-translate-x-full');
+      });
+    });
+
+    // Navbar Scroll Effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-charcoal/90', 'backdrop-blur-md');
+      } else {
+        navbar.classList.remove('bg-charcoal/90', 'backdrop-blur-md');
+      }
+    });
+
+    // Portfolio Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        portfolioItems.forEach(item => {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            item.style.display = 'block';
+            item.style.animation = 'scaleIn 0.5s ease';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
